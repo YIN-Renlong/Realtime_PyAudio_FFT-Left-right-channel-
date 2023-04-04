@@ -139,7 +139,7 @@ class Button:
         self.buttonUP.set_at((self.width-2, 1), self.colour2)
         self.buttonUP.set_at((1, self.height-2), self.colour2)
         self.buttonUP.set_at((self.width-2, self.height-2), self.colour2)
-        self.buttonUP.blit(self.font.render(self.text, True, (0, 0, 0)), ((self.width/2)-(self.text_width/2), (self.height/2)-(self.text_height/2)))
+        self.buttonUP.blit(self.font.render(self.text, False, (0, 0, 0)), ((self.width/2)-(self.text_width/2), (self.height/2)-(self.text_height/2)))
         # hover
         self.buttonHOVER.fill(self.colour3)
         self.pyg.draw.rect(self.buttonHOVER, self.colour4, (0, 0, self.width, self.height/2), 0)
@@ -153,7 +153,7 @@ class Button:
         self.buttonHOVER.set_at((self.width-2, 1), self.colour2)
         self.buttonHOVER.set_at((1, self.height-2), self.colour2)
         self.buttonHOVER.set_at((self.width-2, self.height-2), self.colour2)
-        self.buttonHOVER.blit(self.font.render(self.text, True, (0, 0, 0)), ((self.width/2)-(self.text_width/2), (self.height/2)-(self.text_height/2)))
+        self.buttonHOVER.blit(self.font.render(self.text, False, (0, 0, 0)), ((self.width/2)-(self.text_width/2), (self.height/2)-(self.text_height/2)))
         # down
         r, g, b = self.colour3
         r2, g2, b2 = self.colour4
@@ -169,7 +169,7 @@ class Button:
         self.buttonDOWN.set_at((self.width-2, 1), self.colour2)
         self.buttonDOWN.set_at((1, self.height-2), self.colour2)
         self.buttonDOWN.set_at((self.width-2, self.height-2), self.colour2)
-        self.buttonDOWN.blit(self.font.render(self.text, True, (0, 0, 0)), ((self.width/2)-(self.text_width/2)+1, (self.height/2)-(self.text_height/2)))
+        self.buttonDOWN.blit(self.font.render(self.text, False, (0, 0, 0)), ((self.width/2)-(self.text_width/2)+1, (self.height/2)-(self.text_height/2)))
 
     def draw(self, surface):
         self.__mouse_check__()
