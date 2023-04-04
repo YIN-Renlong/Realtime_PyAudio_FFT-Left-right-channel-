@@ -1,10 +1,23 @@
 import argparse
-from src.stream_analyzer import Stream_Analyzer
 import time
+import pyaudio
+from src.stream_analyzer import Stream_Analyzer
+
+def find_loopback_device_index():
+    pa = pyaudio.PyAudio()
+    loopback_device_index = None
+    for i in range(pa.get_device_count()):
+        device_info = pa.get_device_info_by_index(i)
+        if 'Loopback Audio' in device_info['name']:
+            loopback_device_index = i
+            break
+    if loopback_device_index is None:
+        raise ValueError('Loopback Audio device not found. Please make sure it is set up correctly.')
+    return loopback_device_index
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--device', type=int, default=None, dest='device',
+    parser.add_argument('--device', type=int, default=find_loopback_device_index(), dest='device',
                         help='pyaudio (portaudio) device index')
     parser.add_argument('--height', type=int, default=450, dest='height',
                         help='height, in pixels, of the visualizer window')
@@ -35,7 +48,7 @@ def run_FFT_analyzer():
                     device = args.device,        # Pyaudio (portaudio) device index, defaults to first mic input
                     rate   = None,               # Audio samplerate, None uses the default source settings
                     FFT_window_size_ms  = 60,    # Window size used for the FFT transform
-                    updates_per_second  = 1000,  # How often to read the audio stream for new data
+                    updates_per_second  = 400,  # How often to read the audio stream for new data, original 1000
                     smoothing_length_ms = 50,    # Apply some temporal smoothing to reduce noisy features
                     n_frequency_bins = args.frequency_bins, # The FFT features are grouped in bins
                     visualize = 1,               # Visualize the FFT features with PyGame
