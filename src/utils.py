@@ -55,16 +55,17 @@ class numpy_data_buffer:
     A fast, circular FIFO buffer in numpy with minimal memory interactions by using an array of index pointers
     """
 
-    def __init__(self, n_windows, samples_per_window, dtype = np.float32, start_value = 0, data_dimensions = 1):
+    def __init__(self, n_windows, samples_per_window, dtype=np.float32, start_value=0, data_dimensions=1, channels=2):
         self.n_windows = n_windows
         self.data_dimensions = data_dimensions
         self.samples_per_window = samples_per_window
-        self.data = start_value * np.ones((self.n_windows, self.samples_per_window), dtype = dtype)
+        self.channels = channels
+        self.data = start_value * np.ones((self.n_windows, self.channels, self.samples_per_window), dtype=dtype)
 
         if self.data_dimensions == 1:
-            self.total_samples = self.n_windows * self.samples_per_window
+            self.total_samples = self.n_windows * self.channels * self.samples_per_window
         else:
-            self.total_samples = self.n_windows
+            self.total_samples = self.n_windows * self.channels
 
         self.elements_in_buffer = 0
         self.overwrite_index = 0
@@ -74,7 +75,7 @@ class numpy_data_buffer:
         self.index_order = np.argsort(self.indices)
 
     def append_data(self, data_window):
-        self.data[self.overwrite_index, :] = data_window
+        self.data[self.overwrite_index, :, :] = data_window
 
         self.last_window_id += 1
         self.indices[self.overwrite_index] = self.last_window_id
